@@ -27,13 +27,6 @@ jobs:
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: ${{ vars.AWS_REGION || 'us-east-1' }}
 
-      - name: Cache Terraform state
-        uses: actions/cache@v3
-        with:
-          path: .terraform
-          key: terraform-state-${{ github.run_id }}
-          restore-keys: terraform-state-
-
       - name: Setup Terraform
         uses: hashicorp/setup-terraform@v2.0.2
         with:
@@ -64,13 +57,6 @@ jobs:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: ${{ vars.AWS_REGION || 'us-east-1' }}
-
-      - name: Restore Terraform state
-        uses: actions/cache@v3
-        with:
-          path: .terraform
-          key: terraform-state-${{ github.run_id }}
-          restore-keys: terraform-state-
 
       - name: Setup Terraform
         uses: hashicorp/setup-terraform@v2.0.2
