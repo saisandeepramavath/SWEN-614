@@ -55,4 +55,31 @@ jobs:
       # Step 6: Apply the infrastructure changes
       - name: Terraform Apply
         run: terraform apply -auto-approve # Auto-approve flag skips manual confirmation
+  terraform_destroy:
+    name: "Terraform_destory"
+    # Condition to run this job only when 'Terraform_destroy' is selected
+    if: ${{ github.event.inputs.action == 'Terraform_destroy' }}
+    # Specifies the type of runner to use
+    runs-on: ubuntu-latest
+
+    steps:
+      # Step 1: Check out the repository code
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      # Step 2: Set up AWS credentials for authentication
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v3
+      
+        with:
+          # Using GitHub secrets for secure credential storage
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }} # Secret variable
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }} # Secret variable
+          aws-region: ${{ vars.AWS_REGION || 'us-east-1' }}  # Reference the repository variable
+
+
+
+      # Step 3: Preview the infrastructure changes
+      - name: Terraform Destroy
+        run: terraform destroy -auto-approve # Auto-approve flag skips manual confirmation
         
