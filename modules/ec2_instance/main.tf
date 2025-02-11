@@ -60,7 +60,7 @@ resource "aws_instance" "wordpress_ec2" {
   vpc_security_group_ids = [var.security_group_id]
   key_name               = var.key_name
 
-  user_data = templatefile("${path.module}/wp_rds_install.sh", {
+  user_data = templatefile("${path.root}/wp_rds_install.sh", {
     db_username = var.db_username,
     db_password = var.db_password,
     rds_endpoint = var.rds_endpoint
